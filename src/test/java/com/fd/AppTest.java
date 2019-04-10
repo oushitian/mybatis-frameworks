@@ -1,6 +1,7 @@
 package com.fd;
 
 import com.fd.mapper.TestMapper;
+import com.fd.mybatis.executor.CacheExecutor;
 import com.fd.mybatis.executor.SimpleExecutor;
 import com.fd.mybatis.session.Configuration;
 import com.fd.mybatis.session.SqlSession;
@@ -14,9 +15,11 @@ public class AppTest
     @Test
     public void testMybatis()
     {
-        SqlSession sqlSession = new SqlSession(new Configuration(),new SimpleExecutor());
+        SqlSession sqlSession = new SqlSession(new Configuration(),new CacheExecutor(new SimpleExecutor()));
         TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
         com.fd.entity.Test test = testMapper.selectByPrimaryKey(2);
         System.out.println(test.getName());
+        com.fd.entity.Test test1 = testMapper.selectByPrimaryKey(2);
+        System.out.println(test1.getName());
     }
 }
