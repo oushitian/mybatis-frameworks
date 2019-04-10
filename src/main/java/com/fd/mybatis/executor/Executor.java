@@ -1,5 +1,7 @@
 package com.fd.mybatis.executor;
 
+import com.fd.mybatis.binding.MapperMethod;
+
 /**
  * 执行器接口
  * @author fengdi
@@ -7,10 +9,10 @@ package com.fd.mybatis.executor;
 public interface Executor {
 
     /**
-     * @param sql
+     * @param mapperMethod
      * @param parameter
      * @param <T>
      * @return
      */
-    <T> T selectOne(String sql, String parameter);
+    <T> T selectOne(MapperMethod mapperMethod, String parameter);
 }

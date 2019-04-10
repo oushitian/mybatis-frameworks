@@ -1,5 +1,6 @@
 package com.fd.mybatis.executor;
 
+import com.fd.mybatis.binding.MapperMethod;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -27,14 +28,14 @@ public class CacheExecutor implements Executor{
     }
 
     @Override
-    public <T> T selectOne(String sql, String parameter) {
+    public <T> T selectOne(MapperMethod mapperMethod, String parameter) {
         //查询缓存,名字就返回
-        if (cahce.containsKey(sql)) {
+        if (cahce.containsKey(mapperMethod.getSql())) {
             System.out.println("获取一级缓存");
-            return (T) cahce.get(sql);
+            return (T) cahce.get(mapperMethod.getSql());
         }
-        Object obj = delegate.selectOne(sql,parameter);
-        cahce.putIfAbsent(sql,obj);
+        Object obj = delegate.selectOne(mapperMethod,parameter);
+        cahce.putIfAbsent(mapperMethod.getSql(),obj);
         return (T) obj;
     }
 }

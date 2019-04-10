@@ -1,5 +1,6 @@
 package com.fd.mybatis.binding;
 
+import com.fd.entity.Test;
 import com.fd.mybatis.annotations.Select;
 import com.fd.mybatis.session.Configuration;
 import com.fd.mybatis.session.SqlSession;
@@ -60,6 +61,7 @@ public class MapperRegistry {
                 if (method.isAnnotationPresent(Select.class)) {
                     MapperMethod mapperMethod = new MapperMethod();
                     mapperMethod.setMethod(method);
+                    mapperMethod.setEntity(Test.class);
                     mapperMethod.setSql(method.getAnnotation(Select.class).value());
                     Configuration.MapperMethodMap.putIfAbsent(clazz.getName(), mapperMethod);
                 }

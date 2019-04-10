@@ -1,6 +1,7 @@
 package com.fd.mybatis.session;
 
 
+import com.fd.mybatis.binding.MapperMethod;
 import com.fd.mybatis.executor.Executor;
 
 /**
@@ -32,12 +33,12 @@ public class SqlSession {
 
     /**
      * 根据sql和参数查询数据库
-     * @param sql
+     * @param mapperMethod
      * @param parameter
      * @param <T>
      * @return
      */
-    public <T> T selectOne(String sql,String parameter) {
-        return executor.selectOne(sql,parameter);
+    public <T> T selectOne(MapperMethod mapperMethod, String parameter) {
+        return executor.selectOne(mapperMethod,parameter);
     }
 }

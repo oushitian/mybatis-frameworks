@@ -1,6 +1,7 @@
 package com.fd.mybatis.executor;
 
 import com.fd.entity.Test;
+import com.fd.mybatis.binding.MapperMethod;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,9 +16,9 @@ import java.sql.SQLException;
  * @ClassName SimpleExecutor
  * @Date 2019-04-10 10:14
  */
-public class SimpleExecutor implements Executor{
+public class SimpleExecutor extends BaseExecutor{
     @Override
-    public <T> T selectOne(String sql, String parameter) {
+    public <T> T selectOne(MapperMethod mapperMethod, String parameter) {
         //声明Connection对象
         Connection con = null;
         //驱动程序名
@@ -35,7 +36,7 @@ public class SimpleExecutor implements Executor{
             //获得连接
             con = DriverManager.getConnection(url,user,password);
             //创建statement
-            PreparedStatement statement = con.prepareStatement(sql);
+            PreparedStatement statement = con.prepareStatement(mapperMethod.getSql());
             statement.setInt(1,Integer.parseInt(parameter));
             //获得ResultSet
             ResultSet rs = statement.executeQuery();

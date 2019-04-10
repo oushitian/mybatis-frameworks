@@ -26,8 +26,7 @@ public class MapperProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         MapperMethod mapperMethod = Configuration.getMapperMethodMap().get(method.getDeclaringClass().getName());
         if (Objects.nonNull(mapperMethod)) {
-            String sql = mapperMethod.getSql();
-            return sqlSession.selectOne(sql, String.valueOf(args[0]));
+            return sqlSession.selectOne(mapperMethod, String.valueOf(args[0]));
         }
         return method.invoke(this,args);
     }

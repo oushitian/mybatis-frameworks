@@ -16,5 +16,6 @@ public class MapperMethod {
 
     private String sql;
     private Method method;
+    private Class entity;
 
 }
