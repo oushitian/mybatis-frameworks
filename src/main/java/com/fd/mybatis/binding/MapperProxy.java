@@ -1,6 +1,5 @@
 package com.fd.mybatis.binding;
 
-import com.fd.mybatis.annotations.Select;
 import com.fd.mybatis.session.Configuration;
 import com.fd.mybatis.session.SqlSession;
 
@@ -25,15 +24,9 @@ public class MapperProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        //主要流程就是根据方法名找到sql，sql可能在配置文件也可能在注解上,这里假设在注解上,理论上是个互斥的选择
-        if (method.getDeclaringClass().getName().equals(Configuration.MethodMapping.nameSpace)) {
-            String sql = "";
-            if (method.isAnnotationPresent(Select.class)) {
-                Select select = method.getAnnotation(Select.class);
-                if (Objects.nonNull(select)) {
-                    sql = select.value();
-                }
-            }
+        MapperMethod mapperMethod = Configuration.getMapperMethodMap().get(method.getDeclaringClass().getName());
+        if (Objects.nonNull(mapperMethod)) {
+            String sql = mapperMethod.getSql();
             return sqlSession.selectOne(sql, String.valueOf(args[0]));
         }
         return method.invoke(this,args);
