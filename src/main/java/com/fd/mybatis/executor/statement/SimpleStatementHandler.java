@@ -4,6 +4,7 @@ package com.fd.mybatis.executor.statement;
 import com.fd.mybatis.binding.MapperMethod;
 import com.fd.mybatis.executor.result.ResultHandler;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,15 +19,18 @@ import java.sql.SQLException;
  */
 public class SimpleStatementHandler extends BaseStatementHandler{
 
+    public SimpleStatementHandler(ResultHandler resultHandler) {
+        super(resultHandler);
+    }
+
     @Override
-    public <T> T query(MapperMethod mapperMethod, String parameter, ResultHandler resultHandler) throws SQLException {
+    public <T> T query(MapperMethod mapperMethod, String parameter) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Connection con = getConnection();
         //创建statement
         PreparedStatement statement = con.prepareStatement(mapperMethod.getSql());
         statement.setInt(1,Integer.parseInt(parameter));
         statement.executeQuery();
-        resultHandler.handle(statement,mapperMethod.getEntity());
-        return null;
+        return resultHandler.handle(statement.getResultSet(),mapperMethod.getEntity());
     }
 
     private Connection getConnection() {

@@ -18,8 +18,8 @@ public class AppTest
         SqlSession sqlSession = new SqlSession(new Configuration(),new CacheExecutor(new SimpleExecutor()));
         TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
         com.fd.entity.Test test = testMapper.selectByPrimaryKey(2);
-        System.out.println(test.getName());
+        System.out.println(test);
         com.fd.entity.Test test1 = testMapper.selectByPrimaryKey(2);
-        System.out.println(test1.getName());
+        System.out.println(test1);
     }
 }
